@@ -10,10 +10,7 @@ on:
     - cron: '13 12 * * *'
   push:
     branches: [ "main" ]
-    # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -68,7 +65,7 @@ jobs:
 
   build:
     needs: check_version
-    if: needs.check_version.outputs.skip_build != 'true'
+    if: needs.check_version.outputs.skip_build != 'true' && github.event_name != 'workflow_dispatch'
 
     runs-on: ubuntu-latest
     permissions:
@@ -103,7 +100,6 @@ jobs:
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
       - name: Extract Docker metadata
-        if: github.event_name != 'pull_request'
         id: meta
         uses: docker/metadata-action@v6.1.0
         with:
