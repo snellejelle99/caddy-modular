@@ -1,3 +1,6 @@
+# This is a default example Caddyfile that provides a starting point for your caddy configuration.
+# For more info see the official tutorial here: https://caddyserver.com/docs/caddyfile-tutorial
+
 {
 	#debug
 	# Uncomment line below to enable staging
@@ -5,7 +8,7 @@
 
 	#email example@example.org
 
-	dns YOUR_PROVIDER {env.DNS_API_TOKEN}
+	#dns YOUR_PROVIDER {env.DNS_API_TOKEN}
 }
 
 (block_world) {
@@ -30,25 +33,32 @@
 	}
 }
 
-*.example.org {
-	tls {
-		propagation_delay 120s
-		resolvers 1.1.1.1
-	}
-	import security_headers
-	
-	encode {
-	    zstd
-	    gzip
-	}
-	
-	@test host test.example.org
-	handle @test {
-		reverse_proxy test:8080
-	}
+# Test response on port 80 
+:80
+respond "Hello, world!"
 
-	# Fallback for otherwise unhandled domains
-	handle {
-		abort
-	}
-}
+
+
+#### Wildcard example, requires configured dns provider. see: https://caddyserver.com/docs/automatic-https#wildcard-certificates
+#*.example.org {
+#	tls {
+#		propagation_delay 120s
+#		resolvers 1.1.1.1
+#	}
+#	import security_headers
+#	
+#	encode {
+#	    zstd
+#	    gzip
+#	}
+#	
+#	@test host test.example.org
+#	handle @test {
+#		reverse_proxy test:8080
+#	}
+#
+#	# Fallback for otherwise unhandled domains
+#	handle {
+#		abort
+#	}
+#}
