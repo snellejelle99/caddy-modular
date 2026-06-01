@@ -65,7 +65,7 @@ jobs:
 
   build:
     needs: check_version
-    if: needs.check_version.outputs.skip_build != 'true' && github.event_name != 'workflow_dispatch'
+    if: needs.check_version.outputs.skip_build != 'true' || github.event_name == 'workflow_dispatch'
 
     runs-on: ubuntu-latest
     permissions:
