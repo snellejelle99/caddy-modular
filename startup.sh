@@ -5,7 +5,14 @@ then
 mkdir -p /etc/caddy && cp /usr/caddy/Caddyfile /etc/caddy/Caddyfile
 fi
 
-xcaddy build $CADDY_VERSION $CADDY_MODULES
+CADDY_VERSION=${CADDY_VERSION_OVERRIDE:-$CADDY_VERSION}
+if [[ "$CADDY_VERSION" == "edge" ]]; then
+    xcaddy build master $CADDY_MODULES
+else
+    xcaddy build $CADDY_VERSION $CADDY_MODULES
+fi
+
+
 
 caddy version
 caddy list-modules --packages --versions -s

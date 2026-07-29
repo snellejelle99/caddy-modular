@@ -6,6 +6,9 @@ LABEL org.opencontainers.image.description="a powerful, enterprise-ready, open s
 LABEL org.opencontainers.image.url=https://caddyserver.com
 LABEL org.opencontainers.image.documentation=https://caddyserver.com/docs
 
+ARG CADDY_VERSION_OVERRIDE
+ENV CADDY_VERSION=${CADDY_VERSION_OVERRIDE:-$CADDY_VERSION}
+
 ENV XCADDY_SKIP_CLEANUP=0
 ENV CADDY_MODULES="--with github.com/caddy-dns/duckdns --with github.com/caddy-dns/hetzner/v2 --with github.com/caddy-dns/cloudflare"
 ENV XDG_DATA_HOME="/etc/caddy/data"
