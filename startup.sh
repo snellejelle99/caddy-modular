@@ -12,7 +12,9 @@ else
     xcaddy build $CADDY_VERSION $CADDY_MODULES
 fi
 
-
+if [$CADDY_KEEP_BUILD_CACHE == 0]; then
+    go clean -cache -modcache -testcache -fuzzcache
+fi
 
 caddy version
 caddy list-modules --packages --versions -s
